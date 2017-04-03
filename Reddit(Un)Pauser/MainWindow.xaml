@@ -1,12 +1,40 @@
-﻿<Window x:Class="Reddit_Un_Pauser.MainWindow"
+﻿<controls:MetroWindow x:Class="Reddit_Un_Pauser.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Reddit_Un_Pauser"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls" 
+        Title="Reddit (Un)Pauser" Height="370" Width="600" IsMaxRestoreButtonEnabled="False" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Button Name="LoadActiveCampaignsStateButton" Content="Load live promoted ads" Width="160" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center" Click="LoadActiveCampaignsStateButton_Click"></Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Button Name="PauseAllActivecampaignsButton" Content="Pause all running campaigns" HorizontalAlignment="Center" Width="200" Height="20" Click="PauseAllActivecampaignsButton_Click"></Button>
+            </Grid>
+            <Grid Grid.Column="1">
+                <Button Name="ResumeAllPausedcampaignsButton" Content="Resume all paused campaigns" HorizontalAlignment="Center" Width="200" Height="20" Click="ResumeAllPausedcampaignsButton_Click"></Button>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="220"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <TextBox Name="StatusTextBlock" Width="550" Height="220" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" BorderThickness="1" BorderBrush="Black" IsReadOnly="True"></TextBox>
+            </Grid>
+            <Grid Grid.Row="1">
+                <ProgressBar Name="GeneralProgressBar" Width="180" IsIndeterminate="True"/>
+            </Grid>
+        </Grid>
     </Grid>
-</Window>
+</controls:MetroWindow>
