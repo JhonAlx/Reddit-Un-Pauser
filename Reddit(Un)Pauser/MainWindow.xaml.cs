@@ -300,6 +300,12 @@ namespace Reddit_Un_Pauser
             PauseAllActivecampaignsButton.IsEnabled = true;
         }
 
+        /// <summary>
+        /// Change running campaign status
+        /// </summary>
+        /// <param name="campaign">Campaign data</param>
+        /// <param name="v">If true, campaign will be paused. Otherwise it will be resumed</param>
+        /// <returns></returns>
         private RedditAdJson ToggleCampaign(Campaign campaign, bool v)
         {
             var result = new RedditAdJson();
