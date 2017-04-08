@@ -8,8 +8,8 @@
 
     public class Campaign
     {
-        public string CampaignID;
-        public string PromotionID;
+        public string CampaignId;
+        public string PromotionId;
         public string Uh;
         public State State;
     }

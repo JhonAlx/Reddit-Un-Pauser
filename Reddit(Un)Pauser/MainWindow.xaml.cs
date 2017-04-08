@@ -113,16 +113,15 @@ namespace Reddit_Un_Pauser
 
                     foreach (var liveCampaign in liveCampaigns)
                     {
-                        var campaign = new Campaign();
-
-                        campaign.CampaignID = liveCampaign.GetAttributeValue("data-campaign_id36", "");
-                        campaign.PromotionID = liveCampaign.GetAttributeValue("data-link_id36", "");
-                        campaign.Uh = uh;
-
-                        if (liveCampaign.SelectSingleNode("td/button[@class='pause']") != null)
-                            campaign.State = State.Running;
-                        else
-                            campaign.State = State.Paused;
+                        var campaign = new Campaign
+                        {
+                            CampaignId = liveCampaign.GetAttributeValue("data-campaign_id36", ""),
+                            PromotionId = liveCampaign.GetAttributeValue("data-link_id36", ""),
+                            Uh = uh,
+                            State = liveCampaign.SelectSingleNode("td/button[@class='pause']") != null
+                                ? State.Running
+                                : State.Paused
+                        };
 
                         Campaigns.Add(campaign);
                     }
@@ -151,16 +150,16 @@ namespace Reddit_Un_Pauser
 
             ShowCampaignsStatus();
 
-            PauseAllActivecampaignsButton.IsEnabled = Campaigns.Where(x => x.State == State.Running).Count() > 0 ? true : false;
-            ResumeAllPausedcampaignsButton.IsEnabled = Campaigns.Where(x => x.State == State.Paused).Count() > 0 ? true : false;
+            PauseAllActivecampaignsButton.IsEnabled = Campaigns.Count(x => x.State == State.Running) > 0;
+            ResumeAllPausedcampaignsButton.IsEnabled = Campaigns.Count(x => x.State == State.Paused) > 0;
         }
 
         private void ShowCampaignsStatus()
         {
             Log("INFO", "Ended Campaigns gathering process...");
             Log("INFO", $"Live campaigns total: {Campaigns.Count}");
-            Log("INFO", $"Running campaigns: {Campaigns.Where(x => x.State == State.Running).Count()}");
-            Log("INFO", $"Paused campaigns: {Campaigns.Where(x => x.State == State.Paused).Count()}");
+            Log("INFO", $"Running campaigns: {Campaigns.Count(x => x.State == State.Running)}");
+            Log("INFO", $"Paused campaigns: {Campaigns.Count(x => x.State == State.Paused)}");
         }
 
         /// <summary>
@@ -236,7 +235,7 @@ namespace Reddit_Un_Pauser
                 {
                     if (result.Success)
                     {
-                        Log("INFO", $"Campaign #{campaign.CampaignID} on ad #{campaign.PromotionID} successfully paused");
+                        Log("INFO", $"Campaign #{campaign.CampaignId} on ad #{campaign.PromotionId} successfully paused");
                         campaign.State = State.Paused;
                     }
                 }
@@ -288,7 +287,7 @@ namespace Reddit_Un_Pauser
                 {
                     if (result.Success)
                     {
-                        Log("INFO", $"Campaign #{campaign.CampaignID} on ad #{campaign.PromotionID} successfully resumed");
+                        Log("INFO", $"Campaign #{campaign.CampaignId} on ad #{campaign.PromotionId} successfully resumed");
                         campaign.State = State.Running;
                     }
                 }
@@ -311,7 +310,7 @@ namespace Reddit_Un_Pauser
             var result = new RedditAdJson();
 
             string postString =
-                            $"campaign_id36={campaign.CampaignID}&link_id36={campaign.PromotionID}&should_pause={v.ToString().ToLower()}&uh={campaign.Uh}&renderstyle=html";
+                            $"campaign_id36={campaign.CampaignId}&link_id36={campaign.PromotionId}&should_pause={v.ToString().ToLower()}&uh={campaign.Uh}&renderstyle=html";
             var postUrl = "https://www.reddit.com//api/toggle_pause_campaign";
 
             var toggleRequest = WebRequest.Create(postUrl) as HttpWebRequest;
